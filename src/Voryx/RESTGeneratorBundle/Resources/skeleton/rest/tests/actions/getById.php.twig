@@ -1,0 +1,31 @@
+    /**
+{% block phpdoc_method_header %}
+     * Test to Get one entity {{ entity }}
+{% endblock phpdoc_method_header %}
+{% block phpdoc_method_annotations %}
+    * @depends testCgetAction
+{% endblock phpdoc_method_annotations %}
+     */
+{% block method_definition %}
+    public function testGetAction()
+{% endblock method_definition %}
+    {
+{% block method_body %}
+        $id = $this->getOneId();
+        $url = $this->router->generate('{{ routes['one'] }}', [
+            '_format' => 'json',
+            'entity' => $id
+        ]);
+        $this->client->request(Request::METHOD_GET, $url);
+        $this->assertTrue($this->client->getResponse()->isSuccessful());
+        $data = $this->client->getResponse()->getContent();
+        $this->assertTrue(is_string($data));
+        $json = json_decode($data, true);
+        $this->assertTrue(is_array($json));
+        $this->assertNotEmpty($json);
+        $this->assertArrayHasKey('id', $json);
+{% endblock method_body %}
+{% block method_return '' %}
+    }
+{% block form '' %}
+

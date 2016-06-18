@@ -1,0 +1,45 @@
+<?php
+
+namespace {{ namespace }}\Tests\Controller{{ entity_namespace ? '\\' ~ entity_namespace : '' }};
+
+{% block use_statements %}
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+{% endblock use_statements %}
+
+/**
+{% block phpdoc_class_header %}
+   * {{ entity }} Test controller.
+{% endblock phpdoc_class_header %}
+{% block phpdoc_class_annotations %}
+{% endblock phpdoc_class_annotations %}
+ */
+{% block class_definition %}
+class {{ entity_class }}RESTControllerTest extends WebTestCase
+{% endblock class_definition %}
+{
+{% block class_body %}
+    /**
+     * @var \Symfony\Bundle\FrameworkBundle\Client
+     */
+    private $client;
+
+    /**
+     * @var \Symfony\Component\Routing\RouterInterface
+     */
+    private $router;
+
+    {%- include 'rest/tests/actions/setup.php.twig' %}
+
+    {%- include 'rest/tests/actions/post.php.twig' %}
+
+    {%- include 'rest/tests/actions/getAll.php.twig' %}
+
+    {%- include 'rest/tests/actions/getById.php.twig' %}
+
+    {%- include 'rest/tests/actions/put.php.twig' %}
+
+    {%- include 'rest/tests/actions/delete.php.twig' %}
+
+{% endblock class_body %}
+}

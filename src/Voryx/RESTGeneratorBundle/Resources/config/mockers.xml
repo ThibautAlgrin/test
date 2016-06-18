@@ -1,0 +1,34 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <services>
+        <service id="algrin_sonata_admin_tests_generator.mocker.string" class="Voryx\RESTGeneratorBundle\Mocker\StringMocker">
+            <tag name="sonata_admin_tests_generator" key="string" />
+        </service>
+        <service id="algrin_sonata_admin_tests_generator.mocker.boolean" class="Voryx\RESTGeneratorBundle\Mocker\BooleanMocker">
+            <tag name="sonata_admin_tests_generator" key="boolean" />
+        </service>
+        <service id="algrin_sonata_admin_tests_generator.mocker.text" class="Voryx\RESTGeneratorBundle\Mocker\TextMocker">
+            <tag name="sonata_admin_tests_generator" key="text" />
+            <tag name="sonata_admin_tests_generator" key="sonata_simple_formatter_type" />
+        </service>
+        <service id="algrin_sonata_admin_tests_generator.mocker.relation_to_one" class="Voryx\RESTGeneratorBundle\Mocker\RelationToOneMocker">
+            <call method="setEntityManager">
+                <argument type="service" id="doctrine.orm.default_entity_manager" />
+            </call>
+            <tag name="sonata_admin_tests_generator" key="2" />
+            <tag name="sonata_admin_tests_generator" key="1" />
+        </service>
+        <service id="algrin_sonata_admin_tests_generator.mocker.relation_to_many" class="Voryx\RESTGeneratorBundle\Mocker\RelationToManyMocker">
+            <call method="setEntityManager">
+                <argument type="service" id="doctrine.orm.default_entity_manager" />
+            </call>
+            <tag name="sonata_admin_tests_generator" key="4" />
+            <tag name="sonata_admin_tests_generator" key="8" />
+            <tag name="sonata_admin_tests_generator" key="sonata_type_collection" />
+        </service>
+    </services>
+</container>

@@ -1,3 +1,8 @@
+algrin_article_article_api:
+    resource: "@AlgrinArticleBundle/Controller/ArticleRESTController.php"
+    type:   rest
+    prefix:   /api
+
 algrin_article:
     resource: "@AlgrinArticleBundle/Controller/"
     type:     annotation

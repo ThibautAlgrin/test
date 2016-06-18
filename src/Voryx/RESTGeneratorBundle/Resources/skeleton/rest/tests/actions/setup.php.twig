@@ -1,0 +1,37 @@
+
+
+    /**
+{% block phpdoc_method_header %}
+     * Test Get a {{ entity }} entity
+{% endblock phpdoc_method_header %}
+     *
+{% block phpdoc_method_annotations %}
+{% endblock phpdoc_method_annotations %}
+     */
+{% block method_definition %}
+    public function setUp()
+{% endblock method_definition %}
+    {
+{% block method_body %}
+        $this->client = static::createClient();
+        $this->router = $this->client->getContainer()->get('router');
+{% endblock method_body %}
+{% block method_return '' %}
+    }
+
+    private function getOneId() {
+        $url = $this->router->generate('{{ routes['all'] }}', ['_format' => 'json']);
+        $this->client->request(Request::METHOD_GET, $url);
+        $this->assertTrue($this->client->getResponse()->isSuccessful());
+        $data = $this->client->getResponse()->getContent();
+        $this->assertTrue(is_string($data));
+        $json = json_decode($data, true);
+        $this->assertTrue(is_array($json));
+        $this->assertNotEmpty($json);
+        $this->assertArrayNotHasKey('id', $json);
+        $first = reset($json);
+        $this->assertArrayHasKey('id', $first);
+        return $first['id'];
+    }
+{% block form '' %}
+

@@ -2,6 +2,7 @@
 
 namespace Algrin\ArticleBundle\Entity;
 
+use Gedmo\Mapping\Annotation as Gedmo;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -31,7 +32,8 @@ class Article
     /**
      * @var string
      *
-     * @ORM\Column(name="slug", type="string", length=255)
+     * @Gedmo\Slug(fields={"title"})
+     * @ORM\Column(length=64, unique=true)
      */
     private $slug;
 
