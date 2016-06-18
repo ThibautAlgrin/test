@@ -1,0 +1,19 @@
+fos_rest:
+    body_converter:
+#        enabled: true
+        enabled: false
+    disable_csrf_role: true
+    param_fetcher_listener: true
+    body_listener:          true
+    format_listener:        true
+    routing_loader:
+        default_format: html
+    view:
+        templating_formats:
+            xml: true
+            json: false
+            html: true
+        view_response_listener: force
+    exception:
+        messages:
+            'Symfony\Component\HttpKernel\Exception\NotFoundHttpException': true

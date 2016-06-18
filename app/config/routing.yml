@@ -1,0 +1,8 @@
+algrin_article:
+    resource: "@AlgrinArticleBundle/Controller/"
+    type:     annotation
+    prefix:   /
+
+app:
+    resource: "@AppBundle/Controller/"
+    type:     annotation
