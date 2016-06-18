@@ -53,7 +53,7 @@ class ArticleRESTController extends FOSRestController
                 'csrf_protection' => false,
                 'allow_extra_fields' => true,
             )
-        )->add('submit', 'submit', array('label' => 'Delete'));
+        )->add('submit', 'submit', array('label' => 'supprimer'));
         if ($request->get('_format', 'html') != 'html') {
             return $this->view($entity);
         }
@@ -134,12 +134,13 @@ class ArticleRESTController extends FOSRestController
      *   description="Delete a Article entity"
      * )
      * ---
-     * @param $entity
+     * @param $id
      * @param $request
      * @return Response
      */
-    public function deleteAction(Article $entity, Request $request)
+    public function deleteAction($id, Request $request)
     {
+        $entity = $this->getDoctrine()->getRepository('AlgrinArticleBundle:Article')->findOneBy(['id' => $id]);
         $em = $this->getDoctrine()->getManager();
         $em->remove($entity);
         $em->flush();

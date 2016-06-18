@@ -115,7 +115,7 @@ class ArticleRESTControllerTest extends WebTestCase
         $id = $this->getOneId();
         $url = $this->router->generate('delete_article', [
             '_format' => 'json',
-            'entity' => $id
+            'id' => $id
         ]);
         $this->client->request(Request::METHOD_DELETE, $url);
         $this->assertTrue($this->client->getResponse()->isSuccessful());

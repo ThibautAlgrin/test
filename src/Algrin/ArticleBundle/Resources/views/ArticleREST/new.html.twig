@@ -2,4 +2,11 @@
 
 {% block body %}
     {{ form(data, {'action': path('post_article')}) }}
+    <a href="{{ path('homepage') }}">
+        {{ "Retour à la liste" }}
+    </a>
+{% endblock %}
+
+{% block title %}
+    Créer un article
 {% endblock %}

@@ -19,7 +19,7 @@ class ArticleType extends AbstractType
         $builder->add('leading');
         $builder->add('body');
         $builder->add('createdBy');
-        $builder->add('submit', SubmitType::class);
+        $builder->add('submit', SubmitType::class, ['label' => "Soumettre"]);
     }
     
     /**

@@ -1,14 +1,22 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <a href="{{ path('new_article') }}">{{ 'link.new_article' | trans }}</a>
+    <div>
+    <a href="{{ path('new_article') }}">{{ "Créer un article" }}</a>
+    </div>
     {% for article in data %}
+        <br/>
         <article>
-            <div class="title">{{ article.title }}</div>
+            <div class="title">{{ article.title }} - by {{ article.createdBy }}</div>
             <div class="leading">{{ article.leading }}</div>
-            <a href="{{ path('show_article', {'slug': article.slug}) }}">{{ 'link.read_more' | trans }}</a>
+            <a href="{{ path('show_article', {'slug': article.slug}) }}">{{ "Lire la suite" }}</a>
         </article>
+        <br/>
     {% else %}
         Aucun Article
     {% endfor %}
+{% endblock %}
+
+{% block title %}
+    Liste des articles
 {% endblock %}

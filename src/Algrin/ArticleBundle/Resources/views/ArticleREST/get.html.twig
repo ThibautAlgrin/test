@@ -2,8 +2,7 @@
 
 {% block body %}
     <article>
-        <div class="title">{{ article.title }}</div>
-        <div class="created_by">{{ article.createdBy }}</div>
+        <div class="title">{{ article.title ~ ' par ' ~ article.createdBy ~ " le " ~ article.createdAt | date("d/m/Y") }} </div>
         <div class="leading">{{ article.leading }}</div>
         <div>
             ----
@@ -12,8 +11,12 @@
     </article>
     <div>
         <a href="{{ path('homepage') }}">
-            {{ 'link.list_article' | trans }}
+            {{ "Retour à la liste" }}
         </a>
-        {{ form(deleteForm, {'action': path('delete_article', {'entity' : article.id})}) }}
+        {{ form(deleteForm, {'action': path('delete_article', {'id' : article.id})}) }}
     </div>
+{% endblock %}
+
+{% block title %}
+    Article – {{ article.title }}
 {% endblock %}
