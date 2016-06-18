@@ -1,6 +1,7 @@
 <?php
 
 namespace Algrin\ArticleBundle\Repository;
+use Algrin\ArticleBundle\Entity\Article;
 
 /**
  * ArticleRepository
@@ -10,4 +11,14 @@ namespace Algrin\ArticleBundle\Repository;
  */
 class ArticleRepository extends \Doctrine\ORM\EntityRepository
 {
+    /**
+     * @param string    $slug
+     * @return Article
+     */
+    public function getByIdOrSlug($slug) {
+        $qb = $this->createQueryBuilder('a');
+        $qb->where('a.id = :id')->setParameter('id', $slug);
+        $qb->orWhere('a.slug = :slug')->setParameter('slug', $slug);
+        return $qb->getQuery()->getOneOrNullResult();
+    }
 }

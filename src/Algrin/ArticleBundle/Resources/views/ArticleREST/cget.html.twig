@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <a href="{{ path('new_article') }}">{{ 'link.new_article' | trans }}</a>
+    {% for article in data %}
+        <article>
+            <div class="title">{{ article.title }}</div>
+            <div class="leading">{{ article.leading }}</div>
+            <a href="{{ path('show_article', {'slug': article.slug}) }}">{{ 'link.read_more' | trans }}</a>
+        </article>
+    {% else %}
+        Aucun Article
+    {% endfor %}
+{% endblock %}

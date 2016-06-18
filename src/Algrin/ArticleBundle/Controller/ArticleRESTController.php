@@ -13,6 +13,7 @@ use FOS\RestBundle\Request\ParamFetcherInterface;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use FOS\RestBundle\Controller\Annotations\Get;
 
 
 /**
@@ -29,12 +30,34 @@ class ArticleRESTController extends FOSRestController
      *   resource=true,
      *   description="Get a Article entity"
      * )
+     * @param Request $request
      * @return Response
-     *
+     * @Get("/article/{slug}", name="show_article", options={ "method_prefix" = false })
+     * @Get("/articles/{id}", name="get_article_api", options={ "method_prefix" = false })
      */
-    public function getAction(Article $entity)
+    public function getAction(Request $request)
     {
-        return $this->view($entity);
+        $term = $request->get('slug', null);
+        if ($term == NULL) {
+            $term = $request->get('id', null);
+        }
+        $entity = $this->getDoctrine()->getRepository('AlgrinArticleBundle:Article')->getByIdOrSlug($term);
+        $delete = $this->get('form.factory')->createNamed(
+            ''
+            , 'form'
+            , array(
+
+            )
+            , array(
+                'method' => 'DELETE' ,
+                'csrf_protection' => false,
+                'allow_extra_fields' => true,
+            )
+        )->add('submit', 'submit', array('label' => 'Delete'));
+        if ($request->get('_format', 'html') != 'html') {
+            return $this->view($entity);
+        }
+        return $this->view(['article' => $entity, 'deleteForm' => $delete->createView()]);
     }
 
     /**
@@ -48,6 +71,8 @@ class ArticleRESTController extends FOSRestController
      *   resource=true,
      *   description="Get all Article entities"
      * )
+     * @Get("/", name="homepage", options={ "method_prefix" = false })
+     * @Get("/articles", name="get_articles_api", options={ "method_prefix" = false })
      * ---
      * @param ParamFetcherInterface $paramFetcher
      * @return Response
@@ -90,8 +115,11 @@ class ArticleRESTController extends FOSRestController
             $em = $this->getDoctrine()->getManager();
             $em->persist($entity);
             $em->flush();
-
-            return $this->view($entity);
+            if ($request->get('_format') == 'html') {
+                return $this->redirectToRoute('show_article', ['slug' => $entity->getSlug()]);
+            } else {
+                return $this->view($entity);
+            }
         }
 
         return $this->view(array('errors' => $form->getErrors()));
@@ -106,16 +134,31 @@ class ArticleRESTController extends FOSRestController
      *   description="Delete a Article entity"
      * )
      * ---
-     * @param Request $request
      * @param $entity
+     * @param $request
      * @return Response
      */
-    public function deleteAction(Request $request, Article $entity)
+    public function deleteAction(Article $entity, Request $request)
     {
         $em = $this->getDoctrine()->getManager();
         $em->remove($entity);
         $em->flush();
+        if ($request->get('_format') == 'html') {
+            return $this->redirectToRoute('homepage');
+        } else {
+            return $this->view([]);
+        }
+    }
 
-        return $this->view([]);
+    /**
+     * @View()
+     * @Get("/creer", name="new_article", options={ "method_prefix" = false })
+     * ---
+     * @return \FOS\RestBundle\View\View
+     */
+    public function newAction() {
+        $form = $this->createForm(new ArticleType());
+
+        return $this->view($form->createView());
     }
 }

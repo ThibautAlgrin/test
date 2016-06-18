@@ -1,0 +1,19 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <article>
+        <div class="title">{{ article.title }}</div>
+        <div class="created_by">{{ article.createdBy }}</div>
+        <div class="leading">{{ article.leading }}</div>
+        <div>
+            ----
+        </div>
+        <div class="body">{{ article.body }}</div>
+    </article>
+    <div>
+        <a href="{{ path('homepage') }}">
+            {{ 'link.list_article' | trans }}
+        </a>
+        {{ form(deleteForm, {'action': path('delete_article', {'entity' : article.id})}) }}
+    </div>
+{% endblock %}

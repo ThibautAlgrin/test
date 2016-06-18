@@ -38,7 +38,7 @@ class ArticleRESTControllerTest extends WebTestCase
     }
 
     private function getOneId() {
-        $url = $this->router->generate('get_articles', ['_format' => 'json']);
+        $url = $this->router->generate('get_articles_api', ['_format' => 'json']);
         $this->client->request(Request::METHOD_GET, $url);
         $this->assertTrue($this->client->getResponse()->isSuccessful());
         $data = $this->client->getResponse()->getContent();
@@ -57,13 +57,12 @@ class ArticleRESTControllerTest extends WebTestCase
     */
     public function testPostAction()
     {
-        $headers = array('CONTENT_TYPE' => 'application/json');
         $data = [
             'article' => [
                 'title' => implode(' ',$this->faker->words(5)),
                 'leading' => implode(' ', $this->faker->words(50)),
                 'body' => implode(' ', $this->faker->words(100)),
-                'createdBy' => sprintf("%s %s", $this->faker->firstNameFemale, $this->faker->lastName)
+                'createdBy' => sprintf("%s %s", $this->faker->firstNameFemale, $this->faker->lastName),
             ]
         ];
         $url = $this->router->generate('post_article', ['_format' => 'json']);
@@ -93,9 +92,9 @@ class ArticleRESTControllerTest extends WebTestCase
     public function testGetAction()
     {
         $id = $this->getOneId();
-        $url = $this->router->generate('get_article', [
+        $url = $this->router->generate('get_article_api', [
             '_format' => 'json',
-            'entity' => $id
+            'id' => $id
         ]);
         $this->client->request(Request::METHOD_GET, $url);
         $this->assertTrue($this->client->getResponse()->isSuccessful());
